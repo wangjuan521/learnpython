@@ -4,9 +4,8 @@
 import requests
 import Utlis.UrlTool as urltool
 import Utlis.HttpTools as Httptool
-
+import time
 def getCookie():
-    # url = "http://www.71baomu.com/Cloud_Manage/?controller=index&action=login";
     myhead = {};
     myhead['Host '] = "www.71baomu.com";
     myhead['Accept'] = "application/json, text/javascript, */*; q=0.01";
@@ -24,6 +23,7 @@ def getCookie():
     # print('=====返回响应header===',res.headers)
     # print('====返回json===',res.json())
     # print(res.cookies)
+    time.sleep(5);
     mycookie = requests.utils.dict_from_cookiejar(res.cookies)
     # print(mycookie);
     cookies= "";
