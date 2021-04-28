@@ -13,9 +13,17 @@ import random
 # 实例化对象，创建窗口
 window = tk.Tk();
 # 设置窗口的标题
-window.title("添加子账号");
+window.title("71baomu快服网添加子账号");
+# 获得屏幕的高度
+screenh=window.winfo_screenheight();
+# 获得屏幕的宽度
+screenw=window.winfo_screenwidth();
+# 窗口的宽度
+wwidth = 600;
+# 窗口的高度
+wwheight = 400;
 # 设置窗口的大小
-window.geometry('600x300');
+window.geometry("%dx%d+%d+%d" %(wwidth,wwheight,(screenw-wwidth)/2,(screenh-wwheight)/2));
 # 主账号变量，用于接收entry输入框输入的值
 mainaccount = tk.StringVar();
 # 接收输入框输入的子账号前缀的变量
@@ -24,27 +32,31 @@ subprefix = tk.StringVar();
 subEmail = tk.StringVar();
 # 设置添加子账号的数量变量文本
 subaccountNum = tk.StringVar();
+# 字体的属性,设置成全局变量
+font=("黑体",13,'bold')
 # 设置布局,包括标签，输入框，下拉框等的布局
 def settingLayout():
     LabelLayout();
     EntryLayout();
     choiceBoxLayout();
     AddButton();
-    setTxtLayout();
+    # setTxtLayout();
 # 界面所有标签的布局
 def LabelLayout():
     # 主账号的标签
-    MainAccLabel = tk.Label(window,text="请输入主账号",font=("黑体",13))\
-                   .grid(row=0,column=0,ipady=10,sticky=E);
+    MainAccLabel = tk.Label(window,text="请输入主账号",font=font);
+    MainAccLabel.grid(row=0,column=0,ipady=10,sticky=E);
+
     # 要添加的子账号的前缀的标签
-    subprefixLabel = tk.Label(window,text="请输入子账号的前缀",font=("黑体",13))\
-                    .grid(row=1,column=0,sticky=E);
+    subprefixLabel = tk.Label(window,text="请输入子账号的前缀",font=font);
+    subprefixLabel.grid(row=1,column=0,sticky=E);
+
     # 子账号邮箱的格式标签
-    subEmailLabel = tk.Label(window, text="请选择子账号的邮箱格式", font=("黑体", 13)) \
-        .grid(row=2, column=0,sticky =E,ipady=10);
+    subEmailLabel = tk.Label(window, text="请选择子账号的邮箱格式", font=font)
+    subEmailLabel.grid(row=2, column=0,sticky =E,ipady=10);
     # 显示子账号数量的标签
-    subNumsLabel = tk.Label(window, text="要添加子账号的数量", font=("黑体", 13)) \
-        .grid(row=3, column=0,sticky=E);
+    subNumsLabel = tk.Label(window, text="要添加子账号的数量", font=font)
+    subNumsLabel.grid(row=3, column=0,sticky=E);
 # 设置输入框的布局
 def EntryLayout():
     # 主账号输入框，show=none显示成明文
@@ -74,12 +86,12 @@ def click(*argvs):
 def AddButton():
     addbtn = tk.Button(window,text="添加",bg = "#1798FC",fg="white",width =6,
             command = addaccount)\
-             .grid(row=5,column = 1,sticky = E,padx=5);
+             .grid(row=5,column = 1,sticky = E,padx=15);
 # 多行文本的布局
 def setTxtLayout():
-    showtext = tk.Text(window,height = 5,fg="red")\
-              .grid(row =4,columnspan=2,sticky=W,padx=5,pady=10);
-
+    showtext = tk.Text(window,height = 15,fg="red")
+    showtext.grid(row =4,columnspan=2,sticky=W,padx=15,pady=10);
+    showtext.insert(END,"jjjj\n");
 # 添加子账号的事件
 def addaccount():
     if mainaccount.get()=="":
@@ -172,8 +184,11 @@ def AddSubAccount(subaccount,MainAccount,mycookie):
     res = httptool.Send_Post(url=urltool.AddaccountUrl,data=mydata,header=myheader)
     print("=======提交的参数是====", mydata)
     print("注册子账号的请求数据", res.text,res.status_code)
-
+    showtext.insert(END,res.text+"\n")
 if __name__ == '__main__':
     settingLayout();
+    # 多行文本框用来多行展示添加子账号的信息
+    showtext = tk.Text(window, height=15)
+    showtext.grid(row=4, columnspan=2, sticky=W, padx=15, pady=10);
     # 主窗口循环显示
     window.mainloop()
