@@ -60,11 +60,11 @@ def LabelLayout():
 # 设置输入框的布局
 def EntryLayout():
     # 主账号输入框，show=none显示成明文
-    MainAccEntry = tk.Entry(window,show = None,textvariable = mainaccount,validate="key")\
-                   .grid(row=0,column=1,sticky=W);
+    MainAccEntry = tk.Entry(window,show = None,textvariable = mainaccount,validate="key")
+    MainAccEntry.grid(row=0,column=1,sticky=W);
     # 子账号前缀输入框
-    subprefixEntry = tk.Entry(window,textvariable = subprefix,validate="key")\
-                   .grid(row=1,column=1,sticky=W);
+    subprefixEntry = tk.Entry(window,textvariable = subprefix,validate="key")
+    subprefixEntry.grid(row=1,column=1,sticky=W);
 # 选择下拉框布局
 def choiceBoxLayout():
     subEmailBox = ttk.Combobox(window,textvariable = subEmail,width = 17);
