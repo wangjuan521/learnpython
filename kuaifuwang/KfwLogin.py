@@ -5,12 +5,6 @@ import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage
 import kuaifuwang.GetCookie as cookies
-import Utlis.HttpTools as httptool
-import Utlis.UrlTool as urltools
-import re
-import tkinter.messagebox as messbox
-import json
-import Utlis.Md5Tool as MD5tools
 font=("黑体",13,'bold')
 class kfwLoginPage():
     def __init__(self,master):
@@ -27,11 +21,13 @@ class kfwLoginPage():
         self.entrysetlayout();
         # 按钮的布局
         self.buttonsetlayout();
+        # 多行文本的布局
+        self.textsetLayout();
     # 各个标签的布局
     def labelsetlayout(self):
         # 账号标签
         AccountLabel = tk.Label(self.kfwloginpageinterface, text="请输入登录账号", font=font);
-        AccountLabel.grid(row=0, column=0, sticky=E, pady=50);
+        AccountLabel.grid(row=0, column=0, sticky=E, pady=20);
         # 密码标签
         pwdLabel = tk.Label(self.kfwloginpageinterface, text="请输入账号密码", font=font);
         pwdLabel.grid(row=1, column=0, sticky=E);
@@ -45,19 +41,28 @@ class kfwLoginPage():
         self.passwdEntry = tk.Entry(self.kfwloginpageinterface, textvariable=self.pwdText,
                                     validate="key");
         self.passwdEntry.grid(row=1, column=1, sticky=W);
-
     # 按钮的布局
     def buttonsetlayout(self):
         # 个人信息修改密码
         moditypwdbtn = tk.Button(self.kfwloginpageinterface, text="登录", bg="#1798FC", fg="white",
                                  command=self.moditypwd);
-        moditypwdbtn.grid(row=4, column=1, sticky=E, pady=30)
+        moditypwdbtn.grid(row=4, column=1, sticky=E, pady=20,padx=15,ipadx=5)
         # 返回密码
         backbtn = tk.Button(self.kfwloginpageinterface, text="返回主界面", bg="#1798FC", fg="white",
                             command=self.back);
-        backbtn.grid(row=4, column=1, sticky=W,ipadx = 10)
+        backbtn.grid(row=4, column=1, sticky=E,padx=80)
+
+    # 多行文本框控件，打印登录信息
+    def textsetLayout(self):
+        self.showtext = tk.Text(self.kfwloginpageinterface, height=10)
+        self.showtext.grid(row=3, columnspan=2, sticky=W, padx=15, pady=10);
     def moditypwd(self):
         c = cookies.getkfwlogincookie(self.accountText.get(), self.pwdText.get());
+        if c == None:
+            pass
+        else:
+            self.showtext.insert(END, c[2].text + "\n")
+            self.showtext.insert(END,"登录成功"+"\n")
 
     def back(self):
         self.kfwloginpageinterface.destroy();

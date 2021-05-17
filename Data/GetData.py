@@ -5,6 +5,7 @@ import kuaifuwang.GetCookie as cookie
 import Utlis.HttpTools as httptool
 import Utlis.UrlTool as urltool
 import json
+import kuaifuwang.GetCookie as cookies
 import tkinter.messagebox as messbox
 # 请求账号信息的接口
 def GetuserData(useremail):
@@ -20,8 +21,6 @@ def GetuserData(useremail):
     print("===打印data===",data)
     res = httptool.Send_Post(url=urltool.userinfourl,data=data,header=myhead)
     res_dic = json.loads(res.text)
-    print("==============",type(res_dic),res_dic)
-    print("====长度是==",len(res_dic))
     return res_dic
 # 获取公司 id
 def getComid(res_dic):

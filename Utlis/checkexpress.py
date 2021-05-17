@@ -32,6 +32,7 @@
 # check('fz0lunj2@linshiyouxiang.net')
 #-*- coding:utf-8 -*-
 import re
+
 def checkmail(email):
     # str = r'^[0-9a-zA-Z_]{0,19}@[0-9a-zA-Z]{1,13}\.[com,cn,net]{1,3}$'
     str = r'[\w+\.]+@[a-zA-Z\d]+\.(com|cn|net)'

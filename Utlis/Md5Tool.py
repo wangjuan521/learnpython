@@ -13,4 +13,4 @@ def GetMd5Str(str):
     print('MD5加密后：'+md5str)
     return md5str
 if __name__ == '__main__':
-    GetMd5Str('');
+    GetMd5Str('abcdefg1');

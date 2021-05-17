@@ -21,3 +21,10 @@ refindpwdurl = "http://www.71baomu.com/?controller=forget_pwd&action=do_restall_
 kuaifuwanglogin = "http://shop.71baomu.com/Account/do_login"
 # 快服网我的快服修改个人密码
 kfwmodityuserpwd = "http://www.71baomu.com/?controller=pwd_change&action=pwd_change";
+# 快服网工号管理重置密码
+resetworkpwdurl = "http://www.71baomu.com/?controller=worker_manage&action=set_worker_password"
+# 客服系统登录网址
+kfxtloginurl = "http://open.71baomu.com/"
+# 获取工号管理工号的网址
+ghglworkurl = "http://saas7.71baomu.com/Number/number_list?module=worker&arg=p"
+ghglresetpwd = "http://saas.71baomu.com/Number/reset_password?module=worker&arg=p"

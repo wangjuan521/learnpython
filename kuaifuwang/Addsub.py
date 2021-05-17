@@ -67,7 +67,7 @@ class addsubaccount():
     def choiceBoxLayout(self):
         subEmailBox = ttk.Combobox(self.addface1, textvariable=self.subEmail, width=17);
         subEmailBox["values"] = ("@163.com", "@126.com", "@qq.com", "@gmail.com",
-                                 "@sina.com", "@linshiyouxiang.net");
+                                 "@sina.com", "@linshiyouxiang.net","@139.com");
         # 默认选择第一个
         subEmailBox.current(0);
         # 点击绑定事件
