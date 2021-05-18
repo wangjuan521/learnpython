@@ -43,5 +43,5 @@ def checkmail(email):
         print('Please reset your right Email address!')
         return False;
 if __name__ == '__main__':
-    res= checkmail();
+    res= checkmail("1@163.com");
     print(res)

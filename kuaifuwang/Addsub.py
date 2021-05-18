@@ -12,13 +12,19 @@ import Utlis.UrlTool as urltool
 import string
 import random
 import Utlis.checkexpress as expresstool
+import re
 # 字体的属性,设置成全局变量
 font=("黑体",13,'bold')
+
 class addsubaccount():
     def __init__(self, master):
         self.master = master
         self.addface1 = tk.Frame(self.master, )
         self.addface1.pack()
+        # 控制输入框的输入只能输入数字
+        self.inputCMD=self.addface1.register(self.inputnum)
+        # 控制输入框的输入只能输入字母
+        self.subInputCMD = self.addface1.register(self.subinput)
         # 主账号变量，用于接收entry输入框输入的值
         self.mainaccount = tk.StringVar();
         # 接收输入框输入的子账号前缀的变量
@@ -38,13 +44,20 @@ class addsubaccount():
         # 多行文本框用来多行展示添加子账号的信息
         self.showtext = tk.Text(self.addface1, height=15)
         self.showtext.grid(row=4, columnspan=2, sticky=W, padx=15, pady=10);
+    def inputnum(self,content):
+        if content.isdigit() or content == "":
+            return True
+        else:
+            return False
+    def subinput(self,content):
+        return all(ord(c) < 128 for c in content)
     # 返回主界面
     def back(self):
         self.addface1.destroy()
         loginpage.initfacepage(self.master);
     def LabelLayout(self):
         # 主账号的标签
-        MainAccLabel = tk.Label(self.addface1, text="请输入主账号", font=font);
+        MainAccLabel = tk.Label(self.addface1, text="请输入主账号邮箱", font=font);
         MainAccLabel.grid(row=0, column=0, ipady=10, sticky=E);
         # 要添加的子账号的前缀的标签
         subprefixLabel = tk.Label(self.addface1, text="请输入子账号的前缀", font=font);
@@ -61,7 +74,7 @@ class addsubaccount():
         MainAccEntry = tk.Entry(self.addface1,show = None,textvariable = self.mainaccount,validate="key")
         MainAccEntry.grid(row=0,column=1,sticky=W);
         # 子账号前缀输入框
-        subprefixEntry = tk.Entry(self.addface1,textvariable = self.subprefix,validate="key")
+        subprefixEntry = tk.Entry(self.addface1,textvariable = self.subprefix,validate="key",validatecommand=(self.subInputCMD, '%P'))
         subprefixEntry.grid(row=1,column=1,sticky=W);
     # 选择下拉框布局
     def choiceBoxLayout(self):
@@ -74,8 +87,8 @@ class addsubaccount():
         subEmailBox.bind("<<ComboboxSelected>>",self.click)  # 绑定事件,(下拉列表框被选中时，绑定click()函数)
         subEmailBox.grid(row=2, column=1, sticky=W);
         # 添加子账号数量的下拉框
-        subaccNumBox = Spinbox(self.addface1, from_=1, to=200, textvariable=self.subaccountNum,
-                               validate="key", width=18) \
+        subaccNumBox = Spinbox(self.addface1, from_=5, to=200, textvariable=self.subaccountNum,
+                               validate="key", validatecommand=(self.inputCMD,'%P'),width=18) \
             .grid(row=3, column=1, sticky=W)
     # 邮箱格式下拉框点击事件
     def click(self,*argvs):
@@ -91,12 +104,19 @@ class addsubaccount():
         btn_back.grid(row=5, column=1, sticky=E, padx=80);
     # 添加子账号的事件
     def addaccount(self):
-        print(1111)
-        if self.mainaccount.get() == "":
-            mbox.showerror("温馨提示","主账号不可为空")
+        subEmailFormatList = ["@163.com", "@126.com", "@qq.com", "@gmail.com",
+                                 "@sina.com", "@linshiyouxiang.net","@139.com"];
+        if self.mainaccount.get() == "" or self.mainaccount.get().isspace():
+            mbox.showerror("温馨提示","主账号邮箱不可为空")
             # self.messagebox.showwarning("温馨提示", "主账号不可为空")
-        elif self.subprefix.get() == "":
+        elif self.subprefix.get() == "" or self.subprefix.get().isspace():
             mbox.showerror("温馨提示", "子账号前缀不可为空")
+        elif self.subaccountNum.get()=="" or self.subaccountNum.get().isspace():
+            mbox.showerror("温馨提示", "要模拟的子账号数量不可为空")
+        elif self.subEmail.get()=="" or self.subEmail.get().isspace():
+            mbox.showwarning("温馨提示","子账号的邮箱后缀不可为空")
+        elif self.subEmail.get() not in subEmailFormatList:
+            mbox.showwarning(title="温馨提示",message="子账号的后缀格式不正确")
         else:
             # 将主账号赋值给一个变量
             MainAccount = self.mainaccount.get();
@@ -187,3 +207,14 @@ class addsubaccount():
         print("=======提交的参数是====", mydata)
         print("注册子账号的请求数据", res.text, res.status_code)
         self.showtext.insert(END, res.text + "\n")
+        patternstatus = '\"status\":\"(.*?)\"'
+        statusstr = re.findall(patternstatus, res.text)[0]
+        print("我要把你打印出来",statusstr)
+        if statusstr == "success":
+            self.showtext.insert(END,"=====恭喜您，子账号"+subaccount+"添加成功====="+"\n")
+        else:
+            patternmsg = '\"msg\":\"(.*)\"'
+            msg = re.findall(patternmsg,res.text)[0]
+            # 将 unicode 转中文
+            msgstr = msg.encode().decode("unicode_escape");
+            self.showtext.insert(END,"======子账号"+subaccount+"添加失败，"+"失败原因是："+msgstr+"======"+"\n")

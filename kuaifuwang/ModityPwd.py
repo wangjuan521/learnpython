@@ -33,7 +33,7 @@ class kfwModitypwd():
     # 各个标签的布局
     def labelsetlayout(self):
         # 账号标签
-        AccountLabel = tk.Label(self.kfwModtityInterface, text="请输入登录账号", font=font);
+        AccountLabel = tk.Label(self.kfwModtityInterface, text="请输入登录邮箱账号", font=font);
         AccountLabel.grid(row=0, column=0, sticky=E, pady=20);
         # 密码标签
         pwdLabel = tk.Label(self.kfwModtityInterface, text="请输入账号密码", font=font);
@@ -73,9 +73,9 @@ class kfwModitypwd():
                             command=self.back);
         backbtn.grid(row=4, column=1, sticky = W,padx = 5)
     def moditypwd(self):
-        if self.accountText.get()=="":
+        if self.accountText.get()=="" or self.accountText.get().isspace():
             messbox.showerror(title="温馨提示",message="登录账号不可为空")
-        elif self.pwdText.get()=="":
+        elif self.pwdText.get()=="" or self.pwdText.get().isspace():
             messbox.showerror(title="温馨提示",message="登录密码不可为空")
         else:
             c= cookies.getkfwlogincookie(self.accountText.get(),self.pwdText.get());
@@ -83,30 +83,35 @@ class kfwModitypwd():
             if c ==None:
                 print('账户或密码有误')
             else:
-                myhead = {};
-                myhead['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
-                myhead['X-Requested-With'] = "XMLHttpRequest";
-                myhead['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
-                myhead['Cookie'] = c[0];
-                mydata = {};
-                mydata['old'] = self.beforePwdText.get();
-                mydata['pwd'] = self.newPwdText.get();
-                # 获取到sessionid后要 MD5加密
-                mydata['token'] = MD5tools.GetMd5Str(c[1])
-                res = httptool.Send_Post(url=urltools.kfwmodityuserpwd,data=mydata,header=myhead)
-                print('请求的参数是',mydata)
-                resstr = res.text;
-                patternmsg = '\"msg\":\"(.*)\"'
-                msg = re.findall(patternmsg,resstr)[0]
-                # 将 unicode 转中文
-                msgstr = msg.encode().decode("unicode_escape");
-                patternstatus = '\"status\":\"(.*?)\"'
-                statusstr = re.findall(patternstatus,res.text)[0]
-                print("我要把你打印出来", msgstr,statusstr)
-                if statusstr == "error":
-                    messbox.showerror("温馨提示",message=msgstr)
+                if self.beforePwdText.get()=="" or self.beforePwdText.get().isspace():
+                    messbox.showwarning(title="温馨提示",message="原密码不可为空")
+                elif self.newPwdText.get()=="" or self.newPwdText.get().isspace():
+                    messbox.showwarning(title="温馨提示",message="新密码不可为空")
                 else:
-                    messbox.showinfo(message=msgstr)
+                    myhead = {};
+                    myhead['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
+                    myhead['X-Requested-With'] = "XMLHttpRequest";
+                    myhead['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
+                    myhead['Cookie'] = c[0];
+                    mydata = {};
+                    mydata['old'] = self.beforePwdText.get();
+                    mydata['pwd'] = self.newPwdText.get();
+                    # 获取到sessionid后要 MD5加密
+                    mydata['token'] = MD5tools.GetMd5Str(c[1])
+                    res = httptool.Send_Post(url=urltools.kfwmodityuserpwd,data=mydata,header=myhead)
+                    print('请求的参数是',mydata)
+                    resstr = res.text;
+                    patternmsg = '\"msg\":\"(.*)\"'
+                    msg = re.findall(patternmsg,resstr)[0]
+                    # 将 unicode 转中文
+                    msgstr = msg.encode().decode("unicode_escape");
+                    patternstatus = '\"status\":\"(.*?)\"'
+                    statusstr = re.findall(patternstatus,res.text)[0]
+                    print("我要把你打印出来", msgstr,statusstr)
+                    if statusstr == "error":
+                        messbox.showerror("温馨提示",message=msgstr)
+                    else:
+                        messbox.showinfo(message=msgstr)
     def back(self):
         self.kfwModtityInterface.destroy();
         basepage.initfacepage(self.master)

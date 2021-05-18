@@ -25,28 +25,32 @@ class resetpwd():
     # 标签的布局
     def labelsetlayout(self):
         # 账号的标签
-        AccountLabel = tk.Label(self.resetpwdface,text="请输入重置密码的账号",font=font);
+        AccountLabel = tk.Label(self.resetpwdface,text="请输入重置密码的邮箱账号",font=font);
         AccountLabel.grid(row=0,column=0,sticky=E,pady=100);
+
+        tipsLabel = tk.Label(self.resetpwdface,text="（重置后的密码是abcdefg）");
+        tipsLabel.grid(row=0,column=2)
+
     # 输入框的布局
     def entrysetlayout(self):
         # 输入账号输入框
-        AccountEntry = tk.Entry(self.resetpwdface,textvariable = self.accounttext,
+        self.AccountEntry = tk.Entry(self.resetpwdface,textvariable = self.accounttext,
                        validate="key");
-        AccountEntry.grid(row=0,column=1,sticky=W);
+        self.AccountEntry.grid(row=0,column=1,sticky=W);
     #按钮的布局
     def buttonsetlayout(self):
         # 重置密码
         resetbtn = tk.Button(self.resetpwdface,text="重置密码",bg="#1798FC",fg="white",
                              command=self.resetpwd);
-        resetbtn.grid(row=1,column=1,sticky=E)
+        resetbtn.grid(row=1,column=2,sticky=E)
         # 返回密码
         backbtn = tk.Button(self.resetpwdface,text="返回主界面",bg="#1798FC",fg="white",
                              command=self.back);
-        backbtn.grid(row=1,column=1,sticky=W)
+        backbtn.grid(row=1,column=2,sticky=W)
     # 点击重置密码按钮的事件
     def resetpwd(self):
-        if self.accounttext.get() =="":
-            messbox.showerror("温馨提示","账号不能为空")
+        if self.accounttext.get() =="" or self.accounttext.get().isspace():
+            messbox.showerror("温馨提示","邮箱账号不能为空")
         else:
             Account = self.accounttext.get();
             if expresstool.checkmail(Account)==False:
@@ -55,7 +59,7 @@ class resetpwd():
                 if len(userinfo.GetuserData(self.accounttext.get()))==0:
                     messbox.showerror("温馨提示","账号不存在，请重新输入")
                     # 清空输入框的文本
-                    Account.delete(0,'end')
+                    self.AccountEntry.delete(0,'end')
                 else:
                     self.Requestresetpwd();
     # 请求重置密码的接口

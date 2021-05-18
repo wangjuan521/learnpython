@@ -20,8 +20,6 @@ class Workresetpwd():
         self.worklist = worklist;
         self.arg = Arg;
         self.id6d = id6d;
-        # 定义输入框要重置的密码
-        self.resetpwdText = tk.StringVar();
         # 定义输入框重置账号的变量
         self.subAccount = tk.StringVar();
         print('打印传过来的东西',self.cookies,self.worklist)
@@ -50,7 +48,7 @@ class Workresetpwd():
     # 选择下拉框的布局
     def choiceBoxLayout(self):
         # self.list = ["请选择账号"];
-        self.subEmailBox = ttk.Combobox(self.workresetpwdinterface, textvariable=self.subAccount, width=17);
+        self.subEmailBox = ttk.Combobox(self.workresetpwdinterface, textvariable=self.subAccount, validate="key",width=17);
         self.subEmailBox["values"] = self.worklist;
         # 默认选择第一个
         self.subEmailBox.current(0);
@@ -72,19 +70,19 @@ class Workresetpwd():
                             command=self.back);
         backbtn.grid(row=2, column=1, sticky=W)
     def moditypwd(self):
-        subEmail = self.subEmailBox.get();
+        subEmail = self.subAccount.get();
         pwd = self.resetpwdText.get();
         print('打印下拉框内的值', subEmail)
-        if subEmail == "请选择账号":
+        if subEmail == "请选择账号" or subEmail.isspace() or subEmail=="":
             messbox.showerror(title="温馨提示",message="请选择账号")
-        elif pwd == "":
+        elif pwd == "" or pwd.isspace():
             messbox.showerror(title="温馨提示",message="请输入要重置的密码")
         else:
             self.requestResetpwd(subEmail,pwd)
     def requestResetpwd(self,subEmail,pwd):
         print("重置密码的cookie",self.cookies)
         userid6d = userData.getidid(userData.GetuserData(subEmail))
-        myurl = "http://saas7.71baomu.com/Number/reset_password?module=worker&arg=p10011920_10102164"
+        myurl = "http://saas7.71baomu.com/Number/reset_password?module=worker&arg=p"+self.arg+"_"+str(self.id6d)
         myheader = {}
         myheader['Content-Type'] = "application/json;charset=UTF-8"
         myheader['Cookie'] = self.cookies;

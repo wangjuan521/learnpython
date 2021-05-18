@@ -35,7 +35,7 @@ class kfwpwdReset():
     # 各个标签的布局
     def labelsetlayout(self):
         # 账号标签
-        AccountLabel = tk.Label(self.kfwpassword, text="请输入主账号", font=font);
+        AccountLabel = tk.Label(self.kfwpassword, text="请输入主账号邮箱", font=font);
         AccountLabel.grid(row=0, column=0, sticky=E, pady=20);
         # 密码标签
         pwdLabel = tk.Label(self.kfwpassword, text="请输入主账号密码", font=font);
@@ -86,12 +86,12 @@ class kfwpwdReset():
         subAccount = self.subAccount.get();
         # 获取要重置的密码
         resetpwd = self.resetpwdText.get();
-        if Account == "":
+        if Account == "" or Account.isspace():
             messbox.showerror(title="温馨提示",message="主账号不可为空")
-        elif password == "":
+        elif password == "" or password.isspace():
             messbox.showerror(title="温馨提示",message="主账号密码不可为空")
-        elif subAccount == "":
-            messbox.showerror(title="温馨提示",message="子账号可为空")
+        elif subAccount == "" or subAccount.isspace():
+            messbox.showerror(title="温馨提示",message="子账号不可为空")
         else:
             c = cookies.getkfwlogincookie(self.accountText.get(), self.pwdText.get());
             if c == None:

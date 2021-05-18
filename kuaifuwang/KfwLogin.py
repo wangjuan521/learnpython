@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage
 import kuaifuwang.GetCookie as cookies
+import tkinter.messagebox as messbox
 font=("黑体",13,'bold')
 class kfwLoginPage():
     def __init__(self,master):
@@ -26,7 +27,7 @@ class kfwLoginPage():
     # 各个标签的布局
     def labelsetlayout(self):
         # 账号标签
-        AccountLabel = tk.Label(self.kfwloginpageinterface, text="请输入登录账号", font=font);
+        AccountLabel = tk.Label(self.kfwloginpageinterface, text="请输入登录邮箱账号", font=font);
         AccountLabel.grid(row=0, column=0, sticky=E, pady=20);
         # 密码标签
         pwdLabel = tk.Label(self.kfwloginpageinterface, text="请输入账号密码", font=font);
@@ -57,13 +58,17 @@ class kfwLoginPage():
         self.showtext = tk.Text(self.kfwloginpageinterface, height=10)
         self.showtext.grid(row=3, columnspan=2, sticky=W, padx=15, pady=10);
     def moditypwd(self):
-        c = cookies.getkfwlogincookie(self.accountText.get(), self.pwdText.get());
-        if c == None:
-            pass
+        if not self.accountText.get() or self.accountText.get().isspace():
+            messbox.showwarning(title="温馨提示",message="邮箱账号不可为空")
+        elif self.pwdText.get()=="" or self.pwdText.get().isspace():
+            messbox.showwarning(title="温馨提示",message="账号密码不可为空")
         else:
-            self.showtext.insert(END, c[2].text + "\n")
-            self.showtext.insert(END,"登录成功"+"\n")
-
+            c = cookies.getkfwlogincookie(self.accountText.get(), self.pwdText.get());
+            if c == None:
+                pass
+            else:
+                self.showtext.insert(END, c[2].text + "\n")
+                self.showtext.insert(END,"======恭喜您登录成功===="+"\n")
     def back(self):
         self.kfwloginpageinterface.destroy();
         basepage.initfacepage(self.master)

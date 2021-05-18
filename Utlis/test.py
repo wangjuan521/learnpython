@@ -53,20 +53,32 @@ import tkinter as tk  # 使用Tkinter前需要先导入
 # theButton.pack()
 # # 第8步，主窗口循环显示
 # root.mainloop()
-import json
-import requests
-import kuaifuwang.GetCookie as mycookie
-myurl = "http://saas7.71baomu.com/Number/reset_password?module=worker&arg=p10011920_10102164"
-myheader = {}
-myheader['Content-Type'] = "application/json;charset=UTF-8"
-myheader['Cookie'] = mycookie.getkfxtcookie("zc@163.com","abcdefg1234")
-myheader['Host'] = "saas7.71baomu.com"
-myheader['Origin'] = "http://saas7.71baomu.com"
-# myheader['Referer'] = "http://saas7.71baomu.com/?token=36933B2F327FC182AE9613213AD1534D432894AC2B525C2AFD46DACD0B348850D7FF12F34DEA9D7B446BA10F016CCF9D0C7A2CBEA94B6612AF03DD313E591935&time=1621232663&sign=0ee86acd52f8b718167b7437343350bf"
-myheader['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
-mydata = {}
-mydata['account'] = "22_twm@163.com"
-mydata['id6d'] = 10209547;
-mydata['password'] = "KF123456"
-res = requests.post(url=myurl,data=json.dumps(mydata),headers=myheader)
-print(res.text)
+# import json
+# import requests
+# import kuaifuwang.GetCookie as mycookie
+# myurl = "http://saas7.71baomu.com/Number/reset_password?module=worker&arg=p10011920_10102164"
+# myheader = {}
+# myheader['Content-Type'] = "application/json;charset=UTF-8"
+# myheader['Cookie'] = mycookie.getkfxtcookie("zc@163.com","abcdefg1234")
+# myheader['Host'] = "saas7.71baomu.com"
+# myheader['Origin'] = "http://saas7.71baomu.com"
+# # myheader['Referer'] = "http://saas7.71baomu.com/?token=36933B2F327FC182AE9613213AD1534D432894AC2B525C2AFD46DACD0B348850D7FF12F34DEA9D7B446BA10F016CCF9D0C7A2CBEA94B6612AF03DD313E591935&time=1621232663&sign=0ee86acd52f8b718167b7437343350bf"
+# myheader['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
+# mydata = {}
+# mydata['account'] = "22_twm@163.com"
+# mydata['id6d'] = 10209547;
+# mydata['password'] = "KF123456"
+# res = requests.post(url=myurl,data=json.dumps(mydata),headers=myheader)
+# print(res.text)
+import re
+def check(str):
+    my_re = re.compile(r'[A-Za-z]', re.S)
+    res = re.findall(my_re, str)
+    if len(res):
+        print('包含英文字符')
+    else:
+        print('不包含英文字符')
+if __name__ == '__main__':
+    str = '你好123hello'
+    check(str)
+

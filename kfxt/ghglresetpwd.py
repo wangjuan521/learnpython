@@ -85,9 +85,9 @@ class KFXTpwdReset():
         Account = self.accountText.get();
         # 获取输入的密码
         pwd = self.pwdText.get();
-        if Account == "":
+        if Account == "" or Account.isspace():
             messbox.showerror(title="温馨提示", message="账号不可为空")
-        elif pwd == "":
+        elif pwd == "" or pwd.isspace():
             messbox.showerror(title="温馨提示", message="密码不可为空")
         else:
             res = cookies.kfxtLogin(Account,pwd);
