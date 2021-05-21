@@ -19,12 +19,5 @@ myheader['Referer'] = "http://www.71baomu.com/?controller=myrecharge"
 myheader['Cookie'] = mycookie[0];
 myheader['Proxy-Connection'] = "keep-alive"
 mydata = {};
-# mydata['controller'] = "ghpay"
-# mydata['money'] = '3000';
-# mydata['com_id'] = '107442';
-# mydata['recharge_type'] = "withdraw"
-# mydata['recharge_act_id'] = '0';
-# mydata['attach'] = "myrecharge|zc@163.com|107442|zc@163.com"
-# mydata['token'] = mysessionid
 res = requests.post(url=url,data=None,headers=myheader)
 print(res.text)

@@ -108,8 +108,6 @@ class Workresetpwd():
         else:
             messbox.showinfo(message=msgstr)
 
-
-
     def back(self):
         self.workresetpwdinterface.destroy();
         basepage.initfacepage(self.master)
