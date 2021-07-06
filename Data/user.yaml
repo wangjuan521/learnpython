@@ -1,0 +1,14 @@
+#- user: admin1
+#  psw: '123456'
+#
+#- user: admin2
+#  psw: '111111'
+#
+#- user: admin3
+#  psw: '222222'
+Cloud_ManageUser: #快服网后台登录的账户
+    username: admin
+    passwd: abcdefg1
+YunweiUser: # 运维平台登录的账户
+    username: wangjuan
+    passwd: 123456

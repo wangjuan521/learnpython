@@ -7,11 +7,9 @@ def Send_Post(url,data,header=None):
     try:
         res = requests.post(url=url,data=data,headers=header)
         res.raise_for_status()
-        print("======打印响应信息====",res.text)
     except Exception as e:
         print('异常信息是',e)
     finally:
-        print('走这个方法了吗？')
         return res
 # 封装 get 请求
 def Send_Get(url,params,headers=None):

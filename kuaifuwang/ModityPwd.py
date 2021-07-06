@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/5/6  13:12
 #@Author :wangjuan
+'''
+这是快服网_我的快服_我的信息_修改个人密码的接口，可用来修改用户密码
+'''
 import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage

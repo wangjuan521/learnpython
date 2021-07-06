@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/5/13  15:42
 #@Author :wangjuan
+'''
+这个是新工号管理_密码重置的接口
+'''
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -58,7 +61,6 @@ class Workresetpwd():
         # 邮箱格式下拉框点击事件
     def click(self, *argvs):
         print('点击下拉框', self.subAccount.get());
-
     # 按钮的布局
     def buttonsetlayout(self):
         # 个人信息修改密码
@@ -107,7 +109,6 @@ class Workresetpwd():
             messbox.showerror("温馨提示", message=msgstr)
         else:
             messbox.showinfo(message=msgstr)
-
     def back(self):
         self.workresetpwdinterface.destroy();
         basepage.initfacepage(self.master)

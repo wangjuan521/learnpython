@@ -27,4 +27,13 @@ resetworkpwdurl = "http://www.71baomu.com/?controller=worker_manage&action=set_w
 kfxtloginurl = "http://open.71baomu.com/"
 # 获取工号管理工号的网址
 ghglworkurl = "http://saas7.71baomu.com/Number/number_list?module=worker&arg=p"
+# 工号管理密码重置的网址
 ghglresetpwd = "http://saas.71baomu.com/Number/reset_password?module=worker&arg=p"
+# 客服系统官网登录
+kfxtWebUrl = "https://kf.71baomu.com/login/account_password_login"
+# 掌上客服登录接口
+mobilekfuloginurl = "https://newsaas.53kf.com/saas"
+# 客服系统网页端临时密码重置密码的接口
+restall_pwdurl = "http://open.71baomu.com"
+# 客服系统官网临时重置密码的接口
+kfrestall_pwd = "http://kf.71baomu.com/do_restall_pwd"

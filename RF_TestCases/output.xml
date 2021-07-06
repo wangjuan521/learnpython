@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.2.2 (Python 3.7.3 on win32)" generated="20210610 14:50:57.891" rpa="false">
+<suite id="s1" name="Testcase02 &amp; Testcases">
+<suite id="s1-s1" name="Testcase02" source="E:\learnpython\RF_TestCases\testcase02.robot">
+<test id="s1-s1-t1" name="testdemo01">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>wj</arg>
+</arguments>
+<msg timestamp="20210610 14:50:58.210" level="INFO">wj</msg>
+<status status="PASS" starttime="20210610 14:50:58.209" endtime="20210610 14:50:58.210"></status>
+</kw>
+<status status="PASS" starttime="20210610 14:50:58.208" endtime="20210610 14:50:58.210" critical="yes"></status>
+</test>
+<test id="s1-s1-t2" name="testdemo02">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>hello</arg>
+</arguments>
+<msg timestamp="20210610 14:50:58.213" level="INFO">hello</msg>
+<status status="PASS" starttime="20210610 14:50:58.213" endtime="20210610 14:50:58.213"></status>
+</kw>
+<status status="PASS" starttime="20210610 14:50:58.212" endtime="20210610 14:50:58.214" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20210610 14:50:57.925" endtime="20210610 14:50:58.215"></status>
+</suite>
+<suite id="s1-s2" name="Testcases" source="E:\learnpython\RF_TestCases\testcases.robot">
+<test id="s1-s2-t1" name="testclass01 #用例1">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>hello word</arg>
+</arguments>
+<msg timestamp="20210610 14:50:58.231" level="INFO">hello word</msg>
+<status status="PASS" starttime="20210610 14:50:58.230" endtime="20210610 14:50:58.231"></status>
+</kw>
+<kw name="search">
+<doc>注释，封装一个关键字,搜索功能</doc>
+<kw name="Open Browser" library="Selenium2Library">
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20210610 14:50:58.232" level="INFO">Opening browser 'chrome' to base url 'https://www.baidu.com'.</msg>
+<status status="PASS" starttime="20210610 14:50:58.232" endtime="20210610 14:51:01.235"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=//input[@id="kw"]</arg>
+<arg>python</arg>
+</arguments>
+<msg timestamp="20210610 14:51:01.236" level="INFO">Typing text 'python' into text field 'xpath=//input[@id="kw"]'.</msg>
+<status status="PASS" starttime="20210610 14:51:01.235" endtime="20210610 14:51:01.885"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>3</arg>
+</arguments>
+<msg timestamp="20210610 14:51:04.886" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20210610 14:51:01.885" endtime="20210610 14:51:04.886"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click the element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=//input[@id="su"]</arg>
+</arguments>
+<msg timestamp="20210610 14:51:04.886" level="INFO">Clicking element 'xpath=//input[@id="su"]'.</msg>
+<status status="PASS" starttime="20210610 14:51:04.886" endtime="20210610 14:51:04.973"></status>
+</kw>
+<status status="PASS" starttime="20210610 14:50:58.231" endtime="20210610 14:51:04.974"></status>
+</kw>
+<kw name="Connet Sql" library="connetsql">
+<msg timestamp="20210610 14:51:04.976" level="INFO">此函数用来连接数据库</msg>
+<status status="PASS" starttime="20210610 14:51:04.976" endtime="20210610 14:51:04.976"></status>
+</kw>
+<status status="PASS" starttime="20210610 14:50:58.229" endtime="20210610 14:51:04.977" critical="yes"></status>
+</test>
+<test id="s1-s2-t2" name="testclass02 #用例2">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>hello word</arg>
+</arguments>
+<msg timestamp="20210610 14:51:04.983" level="INFO">hello word</msg>
+<status status="PASS" starttime="20210610 14:51:04.982" endtime="20210610 14:51:04.983"></status>
+</kw>
+<status status="PASS" starttime="20210610 14:51:04.980" endtime="20210610 14:51:04.983" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20210610 14:50:58.218" endtime="20210610 14:51:04.985"></status>
+</suite>
+<status status="PASS" starttime="20210610 14:50:57.894" endtime="20210610 14:51:04.990"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="4" fail="0">Critical Tests</stat>
+<stat pass="4" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="4" fail="0" id="s1" name="Testcase02 &amp; Testcases">Testcase02 &amp; Testcases</stat>
+<stat pass="2" fail="0" id="s1-s1" name="Testcase02">Testcase02 &amp; Testcases.Testcase02</stat>
+<stat pass="2" fail="0" id="s1-s2" name="Testcases">Testcase02 &amp; Testcases.Testcases</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

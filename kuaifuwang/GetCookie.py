@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/4/23  9:49
 #@Author :wangjuan
+'''
+这个接口是获取各个登录接口的cookie
+'''
 import requests
 import Utlis.UrlTool as urltool
 import Utlis.HttpTools as Httptool
@@ -9,7 +12,14 @@ import Utlis.Md5Tool as md5tools
 import json
 import re
 import tkinter.messagebox as messbox
+import os
+from config import ReadYaml
+# 请求快服网后台的登录接口来获取cookie
 def getCookie():
+    # 调用读取user文件，从中获取user信息
+    Cloud_ManageUser = ReadYaml.readUser('../Data/user.yaml')
+    user = Cloud_ManageUser['Cloud_ManageUser']['username']
+    passwd = Cloud_ManageUser['Cloud_ManageUser']['passwd']
     myhead = {};
     myhead['Host '] = "www.71baomu.com";
     myhead['Accept'] = "application/json, text/javascript, */*; q=0.01";
@@ -18,8 +28,8 @@ def getCookie():
     myhead['Content-Type'] ="application/x-www-form-urlencoded";
     myhead['Connection'] ="keep-alive";
     data = {};
-    data['info[login_name]'] = "admin";
-    data['info[login_pwd]'] = "abcdefg1";
+    data['info[login_name]'] = user;
+    data['info[login_pwd]'] = passwd;
     # res = requests.post(url=loginurl,data=data,headers=myhead)
     res= Httptool.Send_Post(url=urltool.loginurl,data=data,header=myhead)
     time.sleep(5);
@@ -30,17 +40,27 @@ def getCookie():
         print(key,value);
         cookies+=key+"="+value+";"
     print(cookies)
+    with open("e:\\cookie.txt","w") as f:
+        f.write(cookies)
     return cookies
-
+def redcookies():
+    print('===========',os.path.dirname(__file__))
+    with open("e:\\cookie.txt","r") as f:
+       return f.read()
+#     获取运维平台的 cookie
 def getyunweicookie():
+    # 调用读取user文件，从中获取user信息
+    yunweiUser = ReadYaml.readUser('../Data/user.yaml')
+    user = yunweiUser['YunweiUser']['username']
+    passwd = yunweiUser['YunweiUser']['passwd']
     myhead={};
     myhead['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36";
     myhead['X-Requested-With'] = "XMLHttpRequest"
     myhead['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
     myhead['Accept'] = "application/json, text/javascript, */*; q=0.01"
     mydata = {};
-    mydata['username'] ="wangjuan";
-    mydata['password'] = "123456";
+    mydata['username'] = user;
+    mydata['password'] = passwd;
     mydata['checked'] = "false";
     res = Httptool.Send_Post(url=urltool.yunweiloginurl,data=mydata,header=myhead)
     print(res.text,res.cookies)
@@ -82,6 +102,7 @@ def getkfwlogincookie(account,pwd):
             print(key, value);
             cookies += key + "=" + value + ";"
         print(cookies)
+        print('===测试session===',requests.session())
         return cookies,sessionID,res;
 # 客服系统登录
 def kfxtLogin(account,pwd):
@@ -101,6 +122,7 @@ def kfxtLogin(account,pwd):
     mydata = {"xajax":"check_login","xajaxr":mytime,"xajaxargs[]":[account,md5tools.GetMd5Str(pwd),"0","1"]}
     res = Httptool.Send_Post(url=urltool.kfxtloginurl,data=mydata,header=myhead)
     return res;
+# 获取客服系统登录的cookie
 def getkfxtcookie(account,pwd):
     url = "http://saas7.71baomu.com/?"
     # url = "http://fsaas.71baomu.com/?token="+getToken(kfxtLogin(account,pwd))
@@ -115,7 +137,6 @@ def getkfxtcookie(account,pwd):
         cookies += key + "=" + value + ";"
     print(cookies)
     return cookies;
-
 def getToken(res):
     # 编写符合格式的正则表达式
     tokenpattern = re.compile(r"'201', '', '(.*)' ,");
@@ -123,12 +144,13 @@ def getToken(res):
     mytoken = tokenpattern.findall(res.text)[0];
     print(mytoken);
     return mytoken;
-
 if __name__ == '__main__':
-    getkfxtcookie("zc@163.com","abcdefg1234")
-    # test = getkfwlogincookie("exr@126.com", "abcdefg1")
-    # getyunweicookie();
+    pass
+    # getkfwlogincookie("zc@163.com","abcdefg1234")
     # getCookie();
+    # print(redcookies());
+    # print(getyunweicookie())
+    # print(redcookies())
 
 
 

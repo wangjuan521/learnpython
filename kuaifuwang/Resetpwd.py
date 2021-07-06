@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/4/29  11:19
 #@Author :wangjuan
+'''
+这是快服网后台_用户管理_密码重置的功能，重置后的密码是abcdefg
+'''
 import tkinter as tk
 import tkinter.messagebox as messbox
 from tkinter import *

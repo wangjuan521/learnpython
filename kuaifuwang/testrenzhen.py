@@ -4,8 +4,8 @@
 import Utlis.Md5Tool as md5tool
 import Utlis.HttpTools as httptool
 infodata = {};
-infodata['company_id'] = "72155998";
-infodata['organization_name'] = "kftest的电子商务有限公司";
+infodata['company_id'] = "72301175";
+infodata['organization_name'] = "kftest的电子商务有限公司,kftest的电子商务有限公司";
 infodata['organization_num'] = '123456';
 infodata['legal_person_tel'] = '17604618635';
 infodata['legal_person_idCard'] = "342623199911177535"
@@ -19,7 +19,7 @@ for key,value in infodata.items():
     teststr += value;
 print(teststr)
 key = md5tool.GetMd5Str(teststr)
-url =  "http://www.kuaifuwang.com.cn/interface/index.php?controller=attestation&action=syncAuthentication&key="+key;
+url =  "http://www.71baomu.com/interface/index.php?controller=attestation&action=syncAuthentication&key="+key;
 print("====key=====",key)
 res = httptool.Send_Post(url=url,data=infodata)
 print('====嘿嘿====',res.text)

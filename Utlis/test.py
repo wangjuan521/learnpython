@@ -71,14 +71,31 @@ import tkinter as tk  # 使用Tkinter前需要先导入
 # res = requests.post(url=myurl,data=json.dumps(mydata),headers=myheader)
 # print(res.text)
 import re
-def check(str):
-    my_re = re.compile(r'[A-Za-z]', re.S)
-    res = re.findall(my_re, str)
-    if len(res):
-        print('包含英文字符')
-    else:
-        print('不包含英文字符')
-if __name__ == '__main__':
-    str = '你好123hello'
-    check(str)
+import xlrd
+# def check(str):
+#     my_re = re.compile(r'[A-Za-z]', re.S)
+#     res = re.findall(my_re, str)
+#     if len(res):
+#         print('包含英文字符')
+#     else:
+#         print('不包含英文字符')
+# def openfile():
+#     book=xlrd.open_workbook(r"C:\Users\Administrator\Desktop\客服系统测试用例_20140610.xlsx")
+#     print(book)
+#     table = book.sheet_by_index(1)
+#     print(table)
+#     print(table.row_values(15))
+
+# if __name__ == '__main__':
+#     print(len("e087a66e932148384272f86c2f7214a2"))
+    # check(str)
+    # openfile()
+import requests
+res = requests.get(url="http://kf.71baomu.com/")
+print(res.status_code)
+print(res.text)
+print('cookie',res.cookies)
+
+
+
 

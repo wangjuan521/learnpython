@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/5/12  14:07
 #@Author :wangjuan
+'''
+这是客服系统_工号管理_登录的接口，若登录成功则跳转至重置工号密码的界面
+'''
 import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage
@@ -65,22 +68,19 @@ class KFXTpwdReset():
         self.subEmailBox.bind("<<ComboboxSelected>>", self.click)  # 绑定事件,(下拉列表框被选中时，绑定click()函数)
         self.subEmailBox.grid(row=2, column=1, sticky=W);
         # 邮箱格式下拉框点击事件
-
     def click(self, *argvs):
         print('点击下拉框', self.subAccount.get());
-
     # 按钮的布局
     def buttonsetlayout(self):
         # 个人信息修改密码
         moditypwdbtn = tk.Button(self.kfxttpasreset, text="登录并跳转", bg="#1798FC", fg="white",
-                                 command=self.moditypwd);
+                                 command=self.login);
         moditypwdbtn.grid(row=2, column=1, sticky=E, pady=20)
         # 返回密码
         backbtn = tk.Button(self.kfxttpasreset, text="返回主界面", bg="#1798FC", fg="white",
                             command=self.back);
         backbtn.grid(row=2, column=1, sticky=W)
-    def moditypwd(self):
-        print('密码重置')
+    def login(self):
         # 获取输入的账号
         Account = self.accountText.get();
         # 获取输入的密码
@@ -94,10 +94,11 @@ class KFXTpwdReset():
             # pattern = "bglogin((.*?),)"
             pattern = "\'(.*?)\',"
             statuscode = re.findall(pattern, res.text)[0]
-            print('状态吗', statuscode, type(statuscode))
+            print('状态码', statuscode, type(statuscode),res.text)
             if statuscode == '201':
                 print('这里请求工号管理工号的请求')
                 res = getdata.GetuserData(Account);
+                print('----dddddd',res)
                 comid = getdata.getComid(res)
                 arg = "10" + str(comid)[2:]
                 id6d = getdata.getidid(res)

@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/4/29  17:25
 #@Author :wangjuan
+'''
+这个是快服网后台忘记密码的接口，可帮助用户找回密码
+'''
 import tkinter as tk
 import tkinter.messagebox as messbox
 from tkinter import *
@@ -9,7 +12,6 @@ import Utlis.UrlTool as urltool
 import Utlis.HttpTools as httptool
 import kuaifuwang.GetCookie as coookie
 import Utlis.checkexpress as expresstool
-import Data.QueryAccountDB as databse
 import Data.GetData as userinfo
 import json
 font=("黑体",13,'bold')

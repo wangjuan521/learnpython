@@ -1,12 +1,17 @@
 #coding=utf-8
 #@time   :2021/5/11  13:27
 #@Author :wangjuan
+'''
+这是客服系统网页端登录的接口
+'''
 import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage
 import tkinter.messagebox as messbox
 import kuaifuwang.GetCookie as getcookie
+import kfxt.kfxtResetPwd as resetpwd
 import re
+import time
 # 字体的属性,设置成全局变量
 font=("黑体",13,'bold')
 class KFxtLogin():
@@ -74,19 +79,25 @@ class KFxtLogin():
             # pattern = "bglogin((.*?),)"
             pattern = "\'(.*?)\',"
             statuscode = re.findall(pattern,res.text)[0]
-            print('状态吗',statuscode,type(statuscode))
-            if statuscode=='201':
+            markstr = re.findall(pattern,res.text)[1]
+            print('状态码',statuscode,type(statuscode),markstr)
+            if statuscode=='201' and markstr == "":
                 messbox.showinfo(title="温馨提示",message="登录成功")
-                self.showtext.insert(END,"状态码是"+statuscode+"登录成功"+"\n")
+                self.showtext.insert(END,"状态码是"+statuscode+"，登录成功"+"\n")
+            elif statuscode=='201' and markstr == "restall_password":
+                # messbox.showinfo(title="温馨提示",message="请尽快重置密码")
+                self.showtext.insert(END,"状态码是"+statuscode+"，请尽快重置密码"+"\n")
+                self.kfxtlogininterface.destroy();
+                resetpwd.ResetPassword(self.master,Account,pwd,"客服系统网页",urlcode=None,mycookie=None)
             elif statuscode=='404' or statuscode=='406':
                 messbox.showerror(title="温馨提示", message="账号或密码有误")
-                self.showtext.insert(END, "状态码是" + statuscode + "登录失败，账号或密码有误" + "\n")
+                self.showtext.insert(END, "状态码是" + statuscode + "，登录失败，账号或密码有误" + "\n")
             elif statuscode=='500' or statuscode=='502':
                 messbox.showerror(title="温馨提示", message="网络繁忙，请稍后重试")
-                self.showtext.insert(END, "状态码是" + statuscode + "登录失败，网络繁忙" + "\n")
+                self.showtext.insert(END, "状态码是" + statuscode + "，登录失败，网络繁忙" + "\n")
             else:
                 messbox.showerror(title="温馨提示",message="登录失败")
-                self.showtext.insert(END,"状态码是"+statuscode+"登录失败"+"\n")
+                self.showtext.insert(END,"状态码是"+statuscode+"，登录失败"+"\n")
     # def requestlogin(self,account,pwd):
     def back(self):
         self.kfxtlogininterface.destroy();

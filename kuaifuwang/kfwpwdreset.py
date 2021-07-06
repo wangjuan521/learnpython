@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/5/10  9:58
 #@Author :wangjuan
+'''
+这个是快服网_我的快服_工号管理_密码重置的接口，可以用来重置工号的密码
+'''
 import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage
@@ -69,7 +72,7 @@ class kfwpwdReset():
     # 按钮的布局
     def buttonsetlayout(self):
         # 个人信息修改密码
-        moditypwdbtn = tk.Button(self.kfwpassword, text="登录", bg="#1798FC", fg="white",
+        moditypwdbtn = tk.Button(self.kfwpassword, text="重置密码", bg="#1798FC", fg="white",
                                  command=self.moditypwd);
         moditypwdbtn.grid(row=4, column=1, sticky=E, pady=30,ipadx=5)
         # 返回密码
@@ -111,9 +114,8 @@ class kfwpwdReset():
         basepage.initfacepage(self.master)
     def RequestWorkPwd(self,mycookie,subaccount,password):
         id6d = getdata.getidid(getdata.GetuserData(subaccount));
-        print('===id6d的类型===',type(id6d))
-        myid = querydb.querytable(str(id6d))
-        print("====p===",myid)
+        sql = "SELECT id FROM cloud_worker WHERE id6d ="+str(id6d)+";"
+        myid = querydb.querytable("53cloud",sql)
         myhead = {};
         myhead['Accept'] = "application/json, text/javascript, */*; q=0.01";
         myhead['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";

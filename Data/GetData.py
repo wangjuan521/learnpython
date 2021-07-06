@@ -5,6 +5,7 @@ import kuaifuwang.GetCookie as cookie
 import Utlis.HttpTools as httptool
 import Utlis.UrlTool as urltool
 import json
+import yaml
 import kuaifuwang.GetCookie as cookies
 import tkinter.messagebox as messbox
 # 请求账号信息的接口
@@ -30,7 +31,7 @@ def getComid(res_dic):
 # 获取 id6d
 def getidid(res_dic):
     id6d = res_dic['id6d']
-    print(id6d)
+    print(id6d,type(id6d))
     return id6d
 if __name__ == '__main__':
-    GetuserData("1111")
+    getidid(GetuserData("zc@163.com"))

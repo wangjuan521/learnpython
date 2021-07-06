@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/4/29  10:01
 #@Author :wangjuan
+'''
+这是快服网后台添加子账号的接口，可批量添加子账号
+'''
 import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as loginpage
@@ -33,6 +36,8 @@ class addsubaccount():
         self.subEmail = tk.StringVar();
         # 设置添加子账号的数量变量文本
         self.subaccountNum = tk.StringVar();
+        # 用于接收输入框输入的子账号密码
+        self.subpwdtext = tk.StringVar();
         # 标签的布局
         self.LabelLayout();
         # 输入框的布局
@@ -43,7 +48,8 @@ class addsubaccount():
         self.AddButton();
         # 多行文本框用来多行展示添加子账号的信息
         self.showtext = tk.Text(self.addface1, height=15)
-        self.showtext.grid(row=4, columnspan=2, sticky=W, padx=15, pady=10);
+        self.showtext.grid(row=5, columnspan=2, sticky=W, padx=15);
+    # 监听只能输入数字
     def inputnum(self,content):
         if content.isdigit() or content == "":
             return True
@@ -51,23 +57,22 @@ class addsubaccount():
             return False
     def subinput(self,content):
         return all(ord(c) < 128 for c in content)
-    # 返回主界面
-    def back(self):
-        self.addface1.destroy()
-        loginpage.initfacepage(self.master);
     def LabelLayout(self):
         # 主账号的标签
         MainAccLabel = tk.Label(self.addface1, text="请输入主账号邮箱", font=font);
-        MainAccLabel.grid(row=0, column=0, ipady=10, sticky=E);
+        MainAccLabel.grid(row=0, column=0, ipady=7, sticky=E);
         # 要添加的子账号的前缀的标签
         subprefixLabel = tk.Label(self.addface1, text="请输入子账号的前缀", font=font);
         subprefixLabel.grid(row=1, column=0, sticky=E);
         # 子账号邮箱的格式标签
         subEmailLabel = tk.Label(self.addface1, text="请选择子账号的邮箱格式", font=font)
-        subEmailLabel.grid(row=2, column=0, sticky=E, ipady=10);
+        subEmailLabel.grid(row=2, column=0, sticky=E, ipady=7);
         # 显示子账号数量的标签
         subNumsLabel = tk.Label(self.addface1, text="要添加子账号的数量", font=font)
         subNumsLabel.grid(row=3, column=0, sticky=E);
+    #   子账号的密码标签
+        subaccpwdLabel = tk.Label(self.addface1, text="请设置子账号的密码", font=font)
+        subaccpwdLabel.grid(row=4, column=0, sticky=E,pady=7);
     # 设置输入框的布局
     def EntryLayout(self):
         # 主账号输入框，show=none显示成明文
@@ -76,6 +81,9 @@ class addsubaccount():
         # 子账号前缀输入框
         subprefixEntry = tk.Entry(self.addface1,textvariable = self.subprefix,validate="key",validatecommand=(self.subInputCMD, '%P'))
         subprefixEntry.grid(row=1,column=1,sticky=W);
+    #   子账号密码输入框
+        self.subpwdEntry = tk.Entry(self.addface1,textvariable = self.subpwdtext,validate="key")
+        self.subpwdEntry.grid(row=4,column=1,sticky=W);
     # 选择下拉框布局
     def choiceBoxLayout(self):
         subEmailBox = ttk.Combobox(self.addface1, textvariable=self.subEmail, width=17);
@@ -98,10 +106,10 @@ class addsubaccount():
     def AddButton(self):
         addbtn = tk.Button(self.addface1, text="添加", bg="#1798FC", fg="white", width=6,
                            command=self.addaccount)
-        addbtn.grid(row=5, column=1, sticky=E, padx=15);
+        addbtn.grid(row=6, column=1, sticky=E, padx=15,pady=5);
         btn_back = tk.Button(self.addface1, text='返回主界面', bg="#1798FC", fg="white",
                              command=self.back)
-        btn_back.grid(row=5, column=1, sticky=E, padx=80);
+        btn_back.grid(row=6, column=1, sticky=E, padx=80);
     # 添加子账号的事件
     def addaccount(self):
         subEmailFormatList = ["@163.com", "@126.com", "@qq.com", "@gmail.com",
@@ -115,6 +123,8 @@ class addsubaccount():
             mbox.showerror("温馨提示", "要模拟的子账号数量不可为空")
         elif self.subEmail.get()=="" or self.subEmail.get().isspace():
             mbox.showwarning("温馨提示","子账号的邮箱后缀不可为空")
+        elif self.subpwdtext.get()=="" or self.subpwdtext.get().isspace():
+            mbox.showwarning("温馨提示", "子账号的密码不可为空")
         elif self.subEmail.get() not in subEmailFormatList:
             mbox.showwarning(title="温馨提示",message="子账号的后缀格式不正确")
         else:
@@ -127,6 +137,8 @@ class addsubaccount():
                 subprefixstr = self.subprefix.get();
                 # 获取子账号邮箱的后缀格式
                 subEmailFormat = self.subEmail.get();
+                # 要设置的子账号的密码
+                subpwd = self.subpwdtext.get()
                 print('邮箱的后缀格式是', subEmailFormat);
                 # 获取cookie并赋值给变量字符串
                 mycookie = cookie.getCookie();
@@ -134,10 +146,10 @@ class addsubaccount():
                 subaccountnum = int(self.subaccountNum.get());
                 for i in range(subaccountnum):
                     print("=======添加第%d位子账号====" % (i + 1));
-                    subaccount = subprefixstr + "_" + "".join(random.sample(string.ascii_letters, 3)) + subEmailFormat;
+                    subaccount = subprefixstr + "".join(random.sample(string.digits+string.ascii_letters,6)) + subEmailFormat;
                     print("最终子账号是", subaccount);
                     # 调用添加子账号的函数
-                    self.AddSubAccount(subaccount, MainAccount, mycookie);
+                    self.AddSubAccount(subaccount, MainAccount, mycookie,subpwd);
     # 请求获取添加子账号的链接
     def requestGetUrl(self,subaccount, MainAccount, mycookie):
         header = {};
@@ -161,17 +173,14 @@ class addsubaccount():
         mydata['sub_account_email'] = subaccount;
         mydata['account_email'] = MainAccount;
         mydata['name'] = self.subprefix.get()+"".join(random.sample(string.ascii_letters,3));
-        # mydata['name'] = "";
-        # mydata['name'] = sub_account+str(num);
         mydata['add_account_method'] = 'add_sub_account';
         mydata['old_account_email'] = '';
         mydata['mobile'] = '';
         mydata['domain_name'] = '';
         res = httptool.Send_Get(url=urltool.GetUrl, params=mydata, headers=header)
-        print('===嘿嘿====', res.status_code, res.text);
         return res.text
-
-    def AddSubAccount(self,subaccount, MainAccount, mycookie):
+    # 添加子账号的接口
+    def AddSubAccount(self,subaccount, MainAccount, mycookie,subpwd):
         resurl = self.requestGetUrl(subaccount, MainAccount, mycookie)
         pattern = re.compile("&code=(.*)&t")
         # 获取code
@@ -197,7 +206,7 @@ class addsubaccount():
         mydata = {};
         mymobile = '1' + str(random.randrange(3, 10)) + "".join(random.sample(string.digits, 9));
         mydata['mobile'] = mymobile;
-        mydata['password'] = 'abcdefg1'
+        mydata['password'] = subpwd;
         mydata['master_account'] = MainAccount;
         mydata['sub_account'] = subaccount;
         mydata['csign'] = c;
@@ -209,7 +218,7 @@ class addsubaccount():
         self.showtext.insert(END, res.text + "\n")
         patternstatus = '\"status\":\"(.*?)\"'
         statusstr = re.findall(patternstatus, res.text)[0]
-        print("我要把你打印出来",statusstr)
+        print("我要把你打印出来",statusstr,res.json(),type(res.json()))
         if statusstr == "success":
             self.showtext.insert(END,"=====恭喜您，子账号"+subaccount+"添加成功====="+"\n")
         else:
@@ -218,3 +227,7 @@ class addsubaccount():
             # 将 unicode 转中文
             msgstr = msg.encode().decode("unicode_escape");
             self.showtext.insert(END,"======子账号"+subaccount+"添加失败，"+"失败原因是："+msgstr+"======"+"\n")
+            # 返回主界面
+    def back(self):
+        self.addface1.destroy()
+        loginpage.initfacepage(self.master);

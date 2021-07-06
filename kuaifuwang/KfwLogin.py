@@ -1,6 +1,9 @@
 #coding=utf-8
 #@time   :2021/5/8  15:35
 #@Author :wangjuan
+'''
+这个是快服网商城登录的接口
+'''
 import tkinter as tk
 from tkinter import *
 import Base.LoginBasePage as basepage
